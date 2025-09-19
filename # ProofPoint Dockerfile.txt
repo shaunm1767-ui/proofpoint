@@ -1,0 +1,69 @@
+# ProofPoint Dockerfile
+
+# 1. Use Node 18 LTS as the base image
+FROM node:18-alpine
+
+# 2. Set working directory
+WORKDIR /app
+
+# 3. Copy package files and install dependencies
+COPY backend/package*.json ./
+RUN npm install --only=production
+
+# 4. Copy all backend files
+COPY backend/ ./
+
+# 5. Expose the app port
+EXPOSE 3000
+
+# 6. Start the app
+CMD ["npm", "start"]
+ProofPoint progress update_files/
+├─ backend/
+│  ├─ package.json
+│  └─ index.js (or main app file)
+└─ Dockerfile
+# ProofPoint Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY backend/package*.json ./
+RUN npm install --only=production
+COPY backend/ ./
+EXPOSE 3000
+CMD ["npm", "start"]
+# ProofPoint Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY backend/package*.json ./
+RUN npm install --only=production
+COPY backend/ ./
+EXPOSE 3000
+CMD ["npm", "start"]
+COPY path/to/backend/ ./
+
+docker build -t proofpoint .
+docker run -d -p 3000:3000 --name proofpoint proofpoint:latest
+
+docker run -d -p 3000:3000 --name proofpoint proofpoint:latest
+
+docker run -d -p 3000:3000 --name proofpoint <your-image-name>:<your-tag>docker build -t proofpoint .
+
+# ProofPoint Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy only package files first
+COPY backend/package*.json ./
+
+RUN npm install --only=production
+
+# Copy all backend files
+COPY backend/ ./
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+
+
