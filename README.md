@@ -11,9 +11,10 @@ A short, clear description of what this project does.
 
 ## Overview
 Explain your project briefly:
-- Purpose
-- Key functionality
-- Who should use it
+
+- **Purpose:** What problem this project solves  
+- **Key functionality:** Main features or workflows  
+- **Who should use it:** Target users or systems  
 
 ## Docker Setup
 1. **Build the Docker image**
@@ -25,8 +26,6 @@ curl http://localhost:8080/health
 
 ---
 
-✅ **Steps to clean up your project:**
-
-1. Delete extra files:
+### ✅ Quick cleanup for extra files
 ```bash
 rm README readme.txt "Read me text"
