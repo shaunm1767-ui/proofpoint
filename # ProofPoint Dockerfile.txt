@@ -64,6 +64,20 @@ COPY backend/ ./
 EXPOSE 3000
 
 CMD ["npm", "start"]
+# - name: Sign the Docker image
+#   if: github.event_name != 'pull_request'
+#   env:
+#     TAGS: ${{ steps.build-and-push.outputs.tags }}
+#     DIGEST: ${{ steps.build-and-push.outputs.digest }}
+#   run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+file: ./proofpoint/Dockerfile-proofpoint.txt
+# - name: Upload Docker artifacts
+#   uses: actions/upload-artifact@v4
+#   with:
+#     name: docker-artifacts
+#     path: ./  # or adjust
+#     if-no-files-found: warn
+#     retention-days: 7
 
 
 
