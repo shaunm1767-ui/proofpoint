@@ -1,0 +1,17 @@
+# 1. Clone or update repo locally
+git clone https://github.com/username/repo.git
+cd repo
+
+# OR, if already cloned
+git pull origin main
+
+# 2. Edit README.md in your editor
+nano README.md
+# or use VS Code / Notepad++
+
+# 3. Stage and commit changes
+git add README.md
+git commit -m "Fix README.md content and formatting"
+
+# 4. Push to GitHub
+git push origin main
