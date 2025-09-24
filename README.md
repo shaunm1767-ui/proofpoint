@@ -1,47 +1,32 @@
-name: Build and push Docker image
+# My Docker Project
+A short, clear description of what this project does.
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+## Table of Contents
+- [Overview](#overview)
+- [Docker Setup](#docker-setup)
+- [Features](#features)
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+- [Notes](#notes)
 
-jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
+## Overview
+Explain your project briefly:
+- Purpose
+- Key functionality
+- Who should use it
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+## Docker Setup
+1. **Build the Docker image**
+```bash
+docker build -t my-app .
+docker run -p 8080:8080 my-app
+docker ps
+curl http://localhost:8080/health
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+---
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+✅ **Steps to clean up your project:**
 
-      - name: Build and push Docker image
-        id: build-and-push
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./Dockerfile-proofpoint.txt
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository }}/proofpoint:latest
-            ghcr.io/${{ github.repository }}/proofpoint:${{ github.sha }}
-
-      - name: Sign the Docker image
-        if: github.event_name != 'pull_request'
-        env:
-          TAGS: ${{ steps.build-and-push.outputs.tags }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+1. Delete extra files:
+```bash
+rm README readme.txt "Read me text"
