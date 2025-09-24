@@ -1,17 +1,47 @@
-- name: Build and push Docker image
-  id: build-and-push
-  uses: docker/build-push-action@v6
-  with:
-    context: .
-    file: ./Dockerfile-proofpoint.txt  # choose the Dockerfile you want
-    push: true
-    tags: |
-      ghcr.io/${{ github.repository }}/proofpoint:latest
-      ghcr.io/${{ github.repository }}/proofpoint:${{ github.sha }}
+name: Build and push Docker image
 
-- name: Sign the Docker image
-  if: github.event_name != 'pull_request'
-  env:
-    TAGS: ${{ steps.build-and-push.outputs.tags }}
-    DIGEST: ${{ steps.build-and-push.outputs.digest }}
-  run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile-proofpoint.txt
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/proofpoint:latest
+            ghcr.io/${{ github.repository }}/proofpoint:${{ github.sha }}
+
+      - name: Sign the Docker image
+        if: github.event_name != 'pull_request'
+        env:
+          TAGS: ${{ steps.build-and-push.outputs.tags }}
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
