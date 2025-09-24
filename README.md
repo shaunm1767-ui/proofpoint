@@ -27,6 +27,3 @@ ProofPoint/
 
 ---
 
-If you want, I can **also make a version that includes exact commands for both Light and Dark APK builds of ProofPoint**, so someone can literally copy-paste and have it running immediately.  
-
-Do you want me to do that?
