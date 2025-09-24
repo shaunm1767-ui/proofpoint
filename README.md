@@ -23,9 +23,10 @@ docker build -t my-app .
 docker run -p 8080:8080 my-app
 docker ps
 curl http://localhost:8080/health
+rm README readme.txt "Read me text"
 
 ---
 
-### ✅ Quick cleanup for extra files
-```bash
-rm README readme.txt "Read me text"
+If you save this as **`README.md`** in your project root, all platforms will render it correctly.  
+
+I can also **make a “ProofPoint-ready” version** with your exact Docker image name, ports, and app-specific commands so you can drop it in and forget about it. Want me to do that next?
