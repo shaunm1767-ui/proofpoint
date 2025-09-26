@@ -1,3 +1,5 @@
+
+
 # ProofPoint Docker Setup
 
 This guide explains how to build and run the ProofPoint Docker container.
@@ -34,7 +36,14 @@ Remove stopped containers, unused images, and other Docker clutter:
 
 Remove specific files if needed:
 
----
+---C:\Users\shaun\Documents\GitHub\proofpoint\C:\Users\shaun\Documents\GitHub\proofpoint\backend\
+
+C:\Users\shaun\Documents\GitHub\proofpoint\
+├─ Dockerfile-proofpoint.txt
+├─ backend\
+
+
+
 
 ✅ **Notes:**
 
