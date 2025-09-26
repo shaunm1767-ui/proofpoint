@@ -31,6 +31,10 @@ http.createServer((req, res) => {
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
+git add backend
+git commit -m "Add backend folder"
+git push
+
   },
   "dependencies": {}
 }
