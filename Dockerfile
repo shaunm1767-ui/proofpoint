@@ -61,3 +61,8 @@ CMD if [ -f ./backend/server.js ]; then \
         echo "No server.js found, container will exit" && \
         tail -f /dev/null; \
     fi
+RUN if [ -f ./backend/package.json ]; then \
+        npm install --prefix ./backend; \
+    else \
+        echo 'No backend found, skipping npm install'; \
+    fi
