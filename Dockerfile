@@ -66,3 +66,21 @@ RUN if [ -f ./backend/package.json ]; then \
     else \
         echo 'No backend found, skipping npm install'; \
     fi
+# === Step 1: Base image ===
+FROM node:20
+
+# === Step 2: Set working directory ===
+WORKDIR /app
+
+# === Step 3: Copy package.json and install dependencies ===
+COPY backend/package*.json ./
+RUN npm install
+
+# === Step 4: Copy backend code ===
+COPY backend ./backend
+
+# === Step 5: Expose port ===
+EXPOSE 3000
+
+# === Step 6: Start the backend server ===
+CMD ["node", "backend/server.js"]
