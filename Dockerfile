@@ -30,3 +30,34 @@ EXPOSE 3000
 
 # Start the backend server
 CMD ["node", "backend/server.js"]
+# === Step 1: Base Image ===
+FROM node:20
+
+# === Step 2: Set working directory ===
+WORKDIR /app
+
+# === Step 3: Copy package.json and package-lock.json if they exist ===
+COPY backend/package*.json ./backend/ 2>/dev/null || echo "No package.json found, skipping npm install"
+
+# === Step 4: Install dependencies only if package.json exists ===
+RUN if [ -f ./backend/package.json ]; then \
+        echo "Installing backend dependencies..." && \
+        npm install --prefix ./backend; \
+    else \
+        echo "No package.json found, skipping npm install"; \
+    fi
+
+# === Step 5: Copy backend code only if folder exists ===
+COPY backend ./backend 2>/dev/null || echo "No backend folder found, skipping copy"
+
+# === Step 6: Expose backend port if needed ===
+EXPOSE 3000
+
+# === Step 7: Start the backend server if server.js exists ===
+CMD if [ -f ./backend/server.js ]; then \
+        echo "Starting backend server..." && \
+        node ./backend/server.js; \
+    else \
+        echo "No server.js found, container will exit" && \
+        tail -f /dev/null; \
+    fi
