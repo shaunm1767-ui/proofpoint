@@ -27,3 +27,57 @@ ProofPoint/
 
 ---
 
+# 📲 ProofPoint
+
+ProofPoint is a mobile + web solution for **tracking and verifying ownership of electronic goods** via serial numbers. It lets users upload invoices, back up proof of purchase, and report stolen items. Anyone can check legitimacy of devices through the ProofPoint platform.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+Make sure you have installed:
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- Git
+- Node.js (if running locally outside Docker)
+
+---
+
+### 🐳 Run with Docker
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/your-username/proofpoint.git
+   cd proofpoint
+# 📲 ProofPoint
+
+ProofPoint is a mobile + web solution for **tracking and verifying ownership of electronic goods** via serial numbers. It lets users upload invoices, back up proof of purchase, and report stolen items. Anyone can check legitimacy of devices through the ProofPoint platform.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+Make sure you have installed:
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- Git
+- Node.js (if running locally outside Docker)
+
+---
+
+### 🐳 Run with Docker
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/your-username/proofpoint.git
+   cd proofpoint
+docker build -t proofpoint .
+docker run -p 8080:8080 proofpoint
+npm install
+npm start
+proofpoint/
+│── backend/        # API services
+│── frontend/       # React app
+│── Dockerfile      # Docker build instructions
+│── README.md       # Project documentation
+nano README.md
