@@ -1,0 +1,36 @@
+backend/
+  package.json   ← describes dependencies
+  server.js      ← main Node.js entry point
+const http = require('http');
+const PORT = process.env.PORT || 8080;
+
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('ProofPoint backend running!\n');
+}).listen(PORT, () => console.log(`Server running on port ${PORT}`));
+{
+  "name": "proofpoint",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {}
+}
+// Simple Node.js backend for ProofPoint
+const http = require('http');
+const PORT = process.env.PORT || 8080;
+
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('ProofPoint backend running!\n');
+}).listen(PORT, () => console.log(`Server running on port ${PORT}`));
+{
+  "name": "proofpoint",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {}
+}
