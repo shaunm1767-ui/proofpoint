@@ -1,37 +1,32 @@
-# === Step 1: Base Image ===
-FROM node:20
+# === Stage 1: Build dependencies ===
+FROM node:20 AS build
 
-# === Step 2: Set working directory ===
+# Set working directory
 WORKDIR /app
 
-# === Step 3: Copy backend package files and install dependencies ===
+# Copy package.json and package-lock.json
 COPY backend/package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# === Step 4: Copy backend code ===
+# Copy backend source code
 COPY backend ./backend
 
-# === Step 5: Expose port ===
-EXPOSE 8080
+# === Stage 2: Production image ===
+FROM node:20-slim
 
-# === Step 6: Start the backend server ===
-CMD ["node", "backend/server.js"]
-
-# === Step 1: Base Image ===
-FROM node:20
-
-# === Step 2: Working directory ===
+# Set working directory
 WORKDIR /app
 
-# === Step 3: Copy package.json and install dependencies ===
-COPY backend/package*.json ./
-RUN npm install
+# Copy dependencies from build stage
+COPY --from=build /app/node_modules ./node_modules
 
-# === Step 4: Copy backend code ===
-COPY backend ./backend
+# Copy backend source code
+COPY --from=build /app/backend ./backend
 
-# === Step 5: Expose port ===
-EXPOSE 8080
+# Expose port your app runs on (adjust if needed)
+EXPOSE 3000
 
-# === Step 6: Start the backend server ===
+# Start the backend server
 CMD ["node", "backend/server.js"]
