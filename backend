@@ -34,6 +34,11 @@ http.createServer((req, res) => {
 git add backend
 git commit -m "Add backend folder"
 git push
+/backend
+   package.json
+   server.js (or index.js)
+Dockerfile
+docker-image.yml (GitHub Action)
 
   },
   "dependencies": {}
