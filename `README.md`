@@ -1,0 +1,56 @@
+# 🚀 ProofPoint
+
+ProofPoint is a security and ownership-tracking platform that allows users to verify electronic goods via serial numbers, upload invoices, and report stolen items.  
+This repository contains the backend setup for ProofPoint using **Node.js** and **PostgreSQL** in Docker.
+
+---
+
+## 📦 Project Structure
+- **Dockerfile** → Builds the ProofPoint backend image.  
+- **docker-compose.yml** → Orchestrates the backend + PostgreSQL database.  
+- **backend/** → Node.js server code (entry: `backend/server.js`).  
+
+---
+
+## 🛠 Prerequisites
+- [Docker](https://docs.docker.com/get-docker/)  
+- [Docker Compose](https://docs.docker.com/compose/install/)  
+- GitHub account with access to GitHub Container Registry (for publishing images).  
+
+---
+
+## 🔨 Build & Run (Local)
+
+### 1. Clone the repo
+```bash
+git clone https://github.com/<your-username>/proofpoint.git
+cd proofpoint
+docker build -t proofpoint-backend .
+docker-compose up
+docker images | grep proofpoint
+docker logs <container_id>
+version: "3.9"
+services:
+  proofpoint:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: proofpoint
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: proofpointdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+---
+
+
