@@ -26,3 +26,23 @@ RUN npm install --only=production
 COPY backend/ ./                 # copies the rest of backend files
 EXPOSE 3000
 CMD ["npm", "start"]
+# Use Node 18 LTS as base
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files first
+COPY backend/package*.json ./
+
+# Install only production dependencies
+RUN npm install --only=production
+
+# Copy all backend files
+COPY backend/ ./
+
+# Expose the app port
+EXPOSE 3000
+
+# Start the app
+CMD ["npm", "start"]
