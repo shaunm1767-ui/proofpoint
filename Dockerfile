@@ -92,3 +92,5 @@ RUN npm install --only=production
 
 # Copy all backend files
 COPY backend/ ./
+COPY backend/package*.json ./
+RUN npm install --only=production
