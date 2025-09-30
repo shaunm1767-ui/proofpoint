@@ -84,3 +84,11 @@ EXPOSE 3000
 
 # === Step 6: Start the backend server ===
 CMD ["node", "backend/server.js"]
+# Copy package files first
+COPY backend/package*.json ./
+
+# Install only production dependencies
+RUN npm install --only=production
+
+# Copy all backend files
+COPY backend/ ./
