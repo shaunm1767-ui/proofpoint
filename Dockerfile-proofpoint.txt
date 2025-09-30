@@ -20,3 +20,9 @@ EXPOSE 3000
 
 # Start the app
 CMD ["npm", "start"]
+WORKDIR /app
+COPY backend/package*.json ./    # copies package.json & package-lock.json
+RUN npm install --only=production
+COPY backend/ ./                 # copies the rest of backend files
+EXPOSE 3000
+CMD ["npm", "start"]
