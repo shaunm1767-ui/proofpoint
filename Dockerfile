@@ -90,7 +90,10 @@ COPY backend/package*.json ./
 # Install only production dependencies
 RUN npm install --only=production
 
-# Copy all backend files
+# Copy all backend filesWORKDIR /app
+COPY backend/package*.json ./
+RUN npm install --only=production
+
 COPY backend/ ./
 COPY backend/package*.json ./
 RUN npm install --only=production
