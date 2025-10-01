@@ -164,3 +164,21 @@ EXPOSE 3000
 
 # Start the app
 CMD ["node", "index.js"]
+# Use Node.js 18 alpine image
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and install dependencies
+COPY backend/package*.json ./
+RUN npm install --omit=dev
+
+# Copy all backend files
+COPY backend/ ./
+
+# Expose app port
+EXPOSE 3000
+
+# Start the server
+CMD ["node", "index.js"]
