@@ -97,3 +97,25 @@ RUN npm install --only=production
 COPY backend/ ./
 COPY backend/package*.json ./
 RUN npm install --only=production
+# ProofPoint Dockerfile
+
+# Use Node 18 LTS as base
+FROM node:18-alpine
+
+# Set working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json first (if exists)
+COPY backend/package*.json ./
+
+# Install production dependencies only
+RUN npm install --omit=dev
+
+# Copy all backend files into container
+COPY backend/ ./
+
+# Expose the app port
+EXPOSE 3000
+
+# Start the app
+CMD ["npm", "start"]
