@@ -119,3 +119,8 @@ EXPOSE 3000
 
 # Start the app
 CMD ["npm", "start"]
+WORKDIR /app
+COPY backend/package*.json ./
+RUN npm install --omit=dev
+# Copy the rest of your backend files here
+COPY backend/ ./
