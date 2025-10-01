@@ -124,3 +124,43 @@ COPY backend/package*.json ./
 RUN npm install --omit=dev
 # Copy the rest of your backend files here
 COPY backend/ ./
+# Use Node 18 LTS
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json if exists
+COPY backend/package.json ./
+
+# Install dependencies (production only)
+RUN npm install --omit=dev
+
+# Copy all backend files into container
+COPY backend/ ./
+
+# Expose app port
+EXPOSE 3000
+
+# Start the app
+CMD ["node", "index.js"]
+# Use Node 18 LTS
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json if exists
+COPY backend/package.json ./
+
+# Install dependencies (production only)
+RUN npm install --omit=dev
+
+# Copy all backend files into container
+COPY backend/ ./
+
+# Expose app port
+EXPOSE 3000
+
+# Start the app
+CMD ["node", "index.js"]
