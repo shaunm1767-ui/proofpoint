@@ -182,3 +182,5 @@ EXPOSE 3000
 
 # Start the server
 CMD ["node", "index.js"]
+COPY backend/package*.json ./
+COPY backend/ ./
