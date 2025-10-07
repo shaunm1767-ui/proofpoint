@@ -1,59 +1,12 @@
-{
-  "name": "proofpoint-backend",
+﻿{
+  "name": "proofpoint",
   "version": "1.0.0",
-<<<<<<< HEAD
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {}
-}
-console.log("Backend server placeholder");
-{
-  "name": "proofpoint-backend",
-  "version": "1.0.0",
+  "description": "ProofPoint app",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {}
-}
-{
-  "name": "proofpoint-backend",
-  "version": "1.0.0",
-=======
->>>>>>> 832b361 (Re-initialize ProofPoint repo after cleanup)
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-<<<<<<< HEAD
-    "express": "^4.18.2"
-  }
-}
-{
-  "name": "proofpoint-backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
+    "start": "node backend/index.js"
   },
   "dependencies": {
     "express": "^4.18.2"
-  }
-}
-{
-  "name": "proofpoint-backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2"
-=======
-    "express": "^4.21.2"
->>>>>>> 832b361 (Re-initialize ProofPoint repo after cleanup)
   }
 }
