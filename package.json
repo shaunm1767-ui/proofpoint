@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "proofpoint",
   "version": "1.0.0",
   "description": "ProofPoint app",
@@ -10,3 +10,4 @@
     "express": "^4.18.2"
   }
 }
+
