@@ -1,0 +1,136 @@
+name: CI/CD — Build, Test, Publish Docker image
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  # Edit this if your Dockerfile name is different
+  DOCKERFILE: Dockerfile-proofpoint.txt
+  # image name will default to ghcr + repo; DOCKERHUB_IMAGE will be set if DOCKERHUB_USERNAME is present
+  GHCR_IMAGE: ghcr.io/${{ github.repository }}
+  DOCKERHUB_IMAGE: ${{ secrets.DOCKERHUB_USERNAME && format('{0}/{1}', secrets.DOCKERHUB_USERNAME, github.event.repository.name) || '' }}
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Show repo tree (for debugging)
+        run: |
+          echo "Current working dir: $(pwd)"
+          ls -la
+          echo "Top-level entries:"
+          ls -la .
+
+      - name: Verify backend exists (fail early with actionable message)
+        id: check-backend
+        run: |
+          if [ -d "./backend" ] && [ -f "./backend/package.json" ]; then
+            echo "backend exists and package.json found."
+            echo "ok=true" >> $GITHUB_OUTPUT
+          else
+            echo "::error ::Missing required backend files in build context."
+            echo "Expected: ./backend/ and ./backend/package.json"
+            echo ""
+            echo "Fix options:"
+            echo "  • Move your backend folder to the repo root alongside this workflow/Dockerfile."
+            echo "  • OR set the build 'context' to the folder that contains backend (see workflow file)."
+            echo ""
+            echo "Example (local): git mv path/to/backend ./backend && git add backend && git commit -m 'Add backend' && git push"
+            echo ""
+            exit 1
+          fi
+
+      - name: Set up QEMU and Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Optionally log in to Docker Hub (if secrets provided)
+        if: ${{ secrets.DOCKERHUB_USERNAME && secrets.DOCKERHUB_TOKEN }}
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata (tags & labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.GHCR_IMAGE }}
+            ${{ secrets.DOCKERHUB_USERNAME && env.DOCKERHUB_IMAGE || '' }}
+          tags: |
+            type=ref,event=branch
+            type=sha
+            type=semver,pattern={{version}}
+
+      - name: Build and push (Buildx)
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./${{ env.DOCKERFILE }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Print build outputs (debug)
+        if: always()
+        run: |
+          echo "build outputs:"
+          echo "tags: ${{ steps.build.outputs.tags || 'none' }}"
+          echo "digest: ${{ steps.build.outputs.digest || 'none' }}"
+
+      - name: Install cosign (for signing) — only outside PRs
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@v3.5.0
+        with:
+          cosign-release: 'v2.2.4'
+
+      - name: Sign published image (cosign) — only when push to main/tags
+        if: github.event_name != 'pull_request' && steps.build.outputs.digest
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          echo "Signing images..."
+          # sign each tag for the digest
+          echo "${TAGS}" | tr ',' '\n' | while read -r t; do
+            if [ -n "$t" ]; then
+              cosign sign --yes "$t@$DIGEST"
+            fi
+          done
+
+      - name: Upload build metadata & logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-build-metadata
+          path: |
+            /tmp/docker-actions-toolkit-*/build-metadata-*.json
+            # fallback: include workspace files for debugging
+            .
+          if-no-files-found: warn
+          retention-days: 7

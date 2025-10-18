@@ -1,0 +1,12 @@
+{
+  "name": "proofpoint",
+  "version": "1.0.0",
+  "description": "ProofPoint app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

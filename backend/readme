@@ -1,0 +1,11 @@
+COPY backend /app/backend
+ADD backend /app/backend
+COPY proofpoint/backend /app/backend
+- name: Build and push Docker image
+  id: build-and-push
+  uses: docker/build-push-action@v6
+  with:
+    context: .
+    file: ./Dockerfile-proofpoint.txt
+    push: true
+docker build -f Dockerfile-proofpoint.txt .

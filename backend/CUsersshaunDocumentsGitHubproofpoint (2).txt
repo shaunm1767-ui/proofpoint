@@ -1,0 +1,57 @@
+
+
+# ProofPoint Docker Setup
+
+This guide explains how to build and run the ProofPoint Docker container.
+
+---
+
+## **1. Build the Docker Image**
+
+Open your terminal in the project root (where the Dockerfile is located) and run:
+
+This will build the Docker image and tag it as `proofpoint-app`.
+
+---
+
+## **2. Run the Docker Container**
+
+Expose port 8080 (or your app port) and run the container:
+
+Your app should now be running and accessible at `http://localhost:8080`.
+
+---
+
+## **3. Verify Container is Running**
+
+Check running containers:
+
+Test the app health (if health endpoint exists):
+
+---
+
+## **4. Clean Up (Optional)**
+
+Remove stopped containers, unused images, and other Docker clutter:
+
+Remove specific files if needed:
+
+---C:\Users\shaun\Documents\GitHub\proofpoint\C:\Users\shaun\Documents\GitHub\proofpoint\backend\
+
+C:\Users\shaun\Documents\GitHub\proofpoint\
+├─ Dockerfile-proofpoint.txt
+├─ backend\
+
+
+
+
+✅ **Notes:**
+
+- Make sure Docker is installed and running on your system.
+- Replace `8080` with your actual app port if different.
+- Use `docker logs <container_id>` to debug if the app fails to start.
+
+
+
+
+

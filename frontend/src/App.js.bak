@@ -1,0 +1,39 @@
+import React, { useState } from "react";
+
+function App() {
+  const [backendStatus, setBackendStatus] = useState("Not checked yet");
+
+  const checkBackend = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/health");
+      const data = await response.json();
+      setBackendStatus(`✅ Backend says: ${data.status}`);
+    } catch (err) {
+      setBackendStatus("❌ Backend not reachable");
+      console.error(err);
+    }
+  };
+
+  return (
+    <div style={{ textAlign: "center", padding: "50px", fontFamily: "Arial" }}>
+      <h1>🚀 ProofPoint Frontend</h1>
+      <p>Ping your backend below:</p>
+      <button
+        onClick={checkBackend}
+        style={{
+          padding: "10px 20px",
+          background: "#007bff",
+          color: "#fff",
+          border: "none",
+          borderRadius: "6px",
+          cursor: "pointer",
+        }}
+      >
+        Ping Backend /health
+      </button>
+      <p style={{ marginTop: "20px", fontSize: "18px" }}>{backendStatus}</p>
+    </div>
+  );
+}
+
+export default App;

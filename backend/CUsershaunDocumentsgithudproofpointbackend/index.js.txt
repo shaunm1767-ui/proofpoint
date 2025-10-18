@@ -1,0 +1,26 @@
+// Load Express
+const express = require('express');
+const app = express();
+
+// Port
+const PORT = 3000;
+
+// Default route
+app.get('/', (req, res) => {
+  res.send('ProofPoint Backend is running!');
+});
+
+// Health route
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
+// ✅ New route
+app.get('/health-this', (req, res) => {
+  res.json({ status: 'ok', message: 'health-this route works!' });
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

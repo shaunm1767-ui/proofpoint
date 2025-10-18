@@ -1,22 +1,24 @@
 version: "3.9"
+
 services:
-  proofpoint:
-    build: .
+  backend:
+    build: ./backend
+    container_name: proofpoint-backend
     ports:
-      - "8080:8080"
+      - "3001:3000"
+    networks:
+      - proofnet
+
+  nginx:
+    build: ./nginx
+    container_name: proofpoint-nginx
+    ports:
+      - "8080:80"
     depends_on:
-      - postgres
+      - backend
+    networks:
+      - proofnet
 
-  postgres:
-    image: postgres:15
-    restart: always
-    environment:
-      POSTGRES_USER: proofpoint
-      POSTGRES_PASSWORD: secretpassword
-      POSTGRES_DB: proofpointdb
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
-file: ./Dockerfile-proofpoint.txt
+networks:
+  proofnet:
+    driver: bridge
